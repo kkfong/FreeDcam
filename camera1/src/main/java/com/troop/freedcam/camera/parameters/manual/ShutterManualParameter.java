@@ -84,7 +84,7 @@ public class ShutterManualParameter extends BaseManualParameter
             this.isSupported = true;
             shutterValues = Mi4WValues.split(",");
         }
-        else if (parameters.containsKey("exposure-time") || DeviceUtils.isRedmiNote() ) {
+        else if (parameters.containsKey("exposure-time") || DeviceUtils.isRedmiNote() || DeviceUtils.IsMarshMallowG3()) {
             try {
 
                 int min = Integer.parseInt(parameters.get("min-exposure-time"));
@@ -153,7 +153,10 @@ public class ShutterManualParameter extends BaseManualParameter
             parameters.put("sony-shutter-speed", String.valueOf(valueToSet));
 
         }
-        else if ( parameters.containsKey("exposure-time") || DeviceUtils.isMoto_MSM8982_8994() || DeviceUtils.isAlcatel_Idol3())
+        else if (parameters.containsKey("exposure-time")
+                || DeviceUtils.isMoto_MSM8982_8994()
+                || DeviceUtils.isAlcatel_Idol3()
+                || DeviceUtils.isRedmiNote())
         {
             current = valueToSet;
             String shutterstring = shutterValues[current];
@@ -209,9 +212,10 @@ public class ShutterManualParameter extends BaseManualParameter
             }
 
         }
-        else if(parameters.containsKey("exposure-time")|| DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W())
+        else if(parameters.containsKey("exposure-time")|| DeviceUtils.isXiaomiMI3W() || DeviceUtils.isRedmiNote()||DeviceUtils.isXiaomiMI4W() || DeviceUtils.IsMarshMallowG3())
         {
-            if (DeviceUtils.isXiaomiMI3W()&& Build.VERSION.SDK_INT < 23 || DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23) {
+            if (DeviceUtils.isXiaomiMI3W()&& Build.VERSION.SDK_INT < 23 || DeviceUtils.isXiaomiMI4W() && Build.VERSION.SDK_INT < 23 || DeviceUtils.IsMarshMallowG3())
+            {
                 shutterstring = FLOATtoSixty4(shutterstring);
                 parameters.put("exposure-time", shutterstring);
             }
@@ -232,7 +236,7 @@ public class ShutterManualParameter extends BaseManualParameter
     public Double getMicroSec(String shutterString)
     {
         Double a = Double.parseDouble(shutterString);
-
+        Log.d(TAG,"getMicroSec exposure time" + a*1000);
         return a * 1000;
 
     }
@@ -242,6 +246,7 @@ public class ShutterManualParameter extends BaseManualParameter
         float b =  Float.parseFloat(a);
         float c = b * 1000000;
         int d = Math.round(c);
+        Log.d(TAG,"FLOATtoSixty4 exposure time" + d);
         return String.valueOf(d);
     }
 

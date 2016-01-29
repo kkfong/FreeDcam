@@ -55,6 +55,14 @@ public class CCTManualParameter extends BaseManualParameter {
             this.isSupported = true;
             createStringArray();
         }
+        else if (parameters.containsKey(WB_MANUAL) && parameters.containsKey(MAX_WB_CCT) && parameters.containsKey(MIN_WB_CCT) || DeviceUtils.IsMarshMallowG3())
+        {
+            this.value = WB_MANUAL;
+            this.max_value = MAX_WB_CCT;
+            this.min_value = MIN_WB_CCT;
+            this.isSupported = true;
+            createStringArray();
+        }
         else if (parameters.containsKey(WB_CT) && parameters.containsKey(MAX_WB_CT) &&  parameters.containsKey(MIN_WB_CT))
         {
             this.value = WB_CT;
@@ -194,7 +202,7 @@ public class CCTManualParameter extends BaseManualParameter {
             }
             else
             {
-                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() ) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
+                if ((DeviceUtils.isOnePlusOne() || DeviceUtils.isRedmiNote() || DeviceUtils.IsMarshMallowG3()) && !camParametersHandler.WhiteBalanceMode.GetValue().equals("manual-cct"))
                     camParametersHandler.WhiteBalanceMode.SetValue("manual-cct", true);
 
                 else if (DeviceUtils.isXiaomiMI3W() || DeviceUtils.isXiaomiMI4W()   )
@@ -208,7 +216,7 @@ public class CCTManualParameter extends BaseManualParameter {
                         camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                     }
                 }
-                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994()))
+                else if (!camParametersHandler.WhiteBalanceMode.GetValue().equals("manual") && (DeviceUtils.isAlcatel_Idol3() || DeviceUtils.isMoto_MSM8982_8994() ))
                 camParametersHandler.WhiteBalanceMode.SetValue("manual", true);
                 parameters.put(value, wbvalues[currentWBPos]);
             }
